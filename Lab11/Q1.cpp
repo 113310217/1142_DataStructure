@@ -68,7 +68,7 @@ public:
 
    while (!q.empty()) {
     TreeNode* current = q.front();// 取出queue的第一個節點指標
-    q.pop();// 將該節點從queue中刪除
+    q.pop(); // 將該節點從queue中刪除
     cout << current->value << " ";
     if (current->left) q.push(current->left);  // 將左子節點的指標加入queue
     if (current->right) q.push(current->right);// 將左子節點的指標加入queue
@@ -120,15 +120,18 @@ public:
    // 找到目標層數，輸出結果並結束函數
    // 當內層迴圈結束，代表某一整層已經完全計算完畢
    // 檢查目前的層數（current_level）是否為輸入的目標（target_level） 
-   if (current_level == target_level) {
+   if (current_level == target_level) {  // 格式完全符合題目要求
     cout << "The sum of level " << target_level << " is: " << level_sum << endl;
     return;
    }
 
-   current_level++;
+   current_level++;  //如果目前層數不是目標，則將層數計數器加 1，準備處理下一層
   }
 
-  // 【防禦性編程】若 queue 空了卻還沒對應到 target_level，代表超出樹高
+  //  queue 空了卻還沒對應到 target_level，代表超出樹高
+  // 當 while 迴圈因為 q.empty() 而自然結束時，代表整棵二元樹所有的節點都已經被
+  // 徹底走訪完畢了。如果程式執行到了這行，卻還沒有在上面的 if (current_level == target_level) 觸發 return
+  // 代表使用者輸入的 target_level 超出了這棵樹實際上的最大高度
   cout << "The layer exceeds the tree height." << endl;
  }
 };
@@ -151,11 +154,11 @@ int main() {
  int input_layer;
  cout << "Please enter the layer to query,starting from 0: ";
     
- // 【防禦性編程】確保使用者輸入的是合法的整數，避免輸入英文等非數字導致無窮迴圈或崩潰
+ // 確保使用者輸入的是合法的整數，避免輸入英文等非數字導致無窮迴圈或崩潰
  if (cin >> input_layer) {
-  tree.printLevelSum(input_layer);
+  tree.printLevelSum(input_layer);  // 輸入合法，執行計算 
  } else {
-  cout << "Invalid input! Please enter an integer." << endl;
+  cout << "Invalid input! Please enter an integer." << endl; // 輸入非法（如英文字元），進行報錯提示
  }
 
  system("pause");
